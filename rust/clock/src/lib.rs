@@ -1,4 +1,4 @@
-#[derive(Debug)]
+#[derive(PartialEq, Debug)]
 pub struct Clock {
     hours: i32,
     minutes: i32,
@@ -19,10 +19,8 @@ impl Clock {
     pub fn to_string(&self) -> String {
         return self.hours.to_string() + ":" + &self.minutes.to_string();
     }
-}
 
-impl PartialEq for Clock {
-    fn eq(&self, other: &Self) -> bool {
+    pub fn eq(&self, other: &Self) -> bool {
         return self.hours == other.hours;
     }
 }
