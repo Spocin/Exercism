@@ -1,10 +1,10 @@
-use std::cmp::min;
-
 #[derive(PartialEq, Debug)]
 pub struct Clock {
     hours: i32,
     minutes: i32,
 }
+
+pub const DAY_AS_MINUTES: i32 = 1440;
 
 impl Clock {
     pub fn new(hours: i32, minutes: i32) -> Self {
@@ -15,17 +15,14 @@ impl Clock {
     }
 
     pub fn add_minutes(&self, minutes: i32) -> Self {
-        let mut hour = self.hours;
-        let mut minute = self.minutes + minutes;
+        let mut clock_as_minutes = (self.hours * 60) + self.minutes + minutes;
 
-        if minute > 60 {
-            hour = (minute / 60) - 1;
-            minute = minute % 60;
-
-            if hour > 23 {
-                hour = hour % 24;
-            }
+        if clock_as_minutes >= DAY_AS_MINUTES {
+            clock_as_minutes = clock_as_minutes % DAY_AS_MINUTES;
         }
+
+        let hour = clock_as_minutes / 60;
+        let minute = clock_as_minutes - (hour * 60);
 
         return Self {
             hours: hour,
