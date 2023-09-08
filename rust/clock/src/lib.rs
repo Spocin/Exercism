@@ -1,3 +1,6 @@
+use std::fmt;
+use std::fmt::Formatter;
+
 #[derive(PartialEq, Debug)]
 pub struct Clock {
     hours: i32,
@@ -62,5 +65,17 @@ impl Clock {
             hours: hour,
             minutes: minute,
         }
+    }
+}
+
+impl fmt::Display for Clock {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        let mut hour_formatted = String::from("00");
+        let mut minute_formatted = String::from("00");
+
+        if self.hours >= 10 { hour_formatted = self.hours.to_string() }
+        if self.minutes >= 10 { minute_formatted = self.minutes.to_string() }
+
+        write!(f, "{}:{}", hour_formatted, minute_formatted)
     }
 }
