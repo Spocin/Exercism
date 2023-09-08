@@ -18,28 +18,6 @@ impl Clock {
         return Clock::process(self.hours, self.minutes + minutes)
     }
 
-    pub fn to_string(&self) -> String {
-        let mut formatted: String = String::from("");
-
-        if self.hours < 10 {
-            formatted.push('0');
-            formatted.push_str(&self.hours.to_string());
-        } else {
-            formatted.push_str(&self.hours.to_string());
-        }
-
-        formatted.push(':');
-
-        if self.minutes < 10 {
-            formatted.push('0');
-            formatted.push_str(&self.minutes.to_string());
-        } else {
-            formatted.push_str(&self.minutes.to_string());
-        }
-
-        return formatted;
-    }
-
     pub fn eq(&self, other: &Self) -> bool {
         self.hours == other.hours && self.minutes == other.minutes
     }
@@ -70,12 +48,6 @@ impl Clock {
 
 impl fmt::Display for Clock {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        let mut hour_formatted = String::from("00");
-        let mut minute_formatted = String::from("00");
-
-        if self.hours >= 10 { hour_formatted = self.hours.to_string() }
-        if self.minutes >= 10 { minute_formatted = self.minutes.to_string() }
-
-        write!(f, "{}:{}", hour_formatted, minute_formatted)
+        write!(f, "{:02}:{:02}", self.hours, self.minutes)
     }
 }
