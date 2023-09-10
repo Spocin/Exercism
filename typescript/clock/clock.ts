@@ -4,6 +4,12 @@ export class Clock {
 
   constructor(hour: number, minute?: number) {
     let tmpMinutes =  ((hour * 60) + (minute ?? 0));
+
+    if (tmpMinutes < 0) {
+      tmpMinutes = tmpMinutes % this.DAY_AS_MINUTES;
+      tmpMinutes = this.DAY_AS_MINUTES - (tmpMinutes * -1);
+    }
+
     if (tmpMinutes >= this.DAY_AS_MINUTES) tmpMinutes = tmpMinutes % this.DAY_AS_MINUTES;
     this.minutes = tmpMinutes;
   }
@@ -11,11 +17,10 @@ export class Clock {
   public toString(): string {
     const opt: Intl.NumberFormatOptions = {
       minimumIntegerDigits: 2,
-      maximumFractionDigits: 0,
       useGrouping: false,
     }
 
-    const hours = (this.minutes / 60).toLocaleString('pl-PL', opt);
+    const hours = Math.trunc(this.minutes / 60).toLocaleString('pl-PL', opt);
     const minutes = (this.minutes % 60).toLocaleString('pl-PL', opt);
 
     return `${hours}:${minutes}`
