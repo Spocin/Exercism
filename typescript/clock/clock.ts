@@ -1,6 +1,6 @@
 export class Clock {
-  private DAY_AS_MINUTES = 1440;
-  private minutes: number;
+  private readonly DAY_AS_MINUTES = 1440;
+  private readonly minutes: number;
 
   constructor(hour: number, minute?: number) {
     let tmpMinutes =  ((hour * 60) + (minute ?? 0));
@@ -26,15 +26,15 @@ export class Clock {
     return `${hours}:${minutes}`
   }
 
-  public plus(minutes: unknown): Clock {
-    throw new Error('Remove this statement and implement this function')
+  public plus(minutes: number): Clock {
+    return new Clock(0, this.minutes + minutes);
   }
 
-  public minus(minutes: unknown): Clock {
-    throw new Error('Remove this statement and implement this function')
+  public minus(minutes: number): Clock {
+    return new Clock(0, this.minutes - minutes);
   }
 
-  public equals(other: unknown): unknown {
-    throw new Error('Remove this statement and implement this function')
+  public equals(other: Clock): boolean {
+    return this.minutes === other.minutes;
   }
 }
