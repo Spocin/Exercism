@@ -2,6 +2,7 @@ export class Robot {
   private static readonly namesArr: string[] = [];
 
   private _name: string;
+  private usedNamesSet = new Set<string>();
 
   private static initializeNamesMap() {
     const opt: Intl.NumberFormatOptions = {
@@ -23,6 +24,7 @@ export class Robot {
   constructor() {
     if (!Robot.namesArr.length) Robot.initializeNamesMap();
     this._name = this.getRandomName();
+    this.usedNamesSet.add(this._name);
   }
 
   public get name(): string {
@@ -30,8 +32,13 @@ export class Robot {
   }
 
   public resetName(): void {
-    const newName = this.getRandomName();
-    Robot.namesArr.push(this._name);
+    let newName = this.getRandomName();
+
+    while (this.usedNamesSet.has(newName)) {
+      Robot.namesArr.push(newName);
+      newName = this.getRandomName();
+    }
+
     this._name = newName;
   }
 
