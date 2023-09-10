@@ -1,5 +1,7 @@
 export class Robot {
-  private static namesMap = new Map<string, boolean>();
+  private static readonly namesArr: string[] = [];
+
+  private _name: string;
 
   private static initializeNamesMap() {
     const opt: Intl.NumberFormatOptions = {
@@ -10,9 +12,8 @@ export class Robot {
     for (let i = 65; i < 91; i++) {
       for (let j = 65; j < 91; j++) {
         for (let k = 0; k <= 999; k++) {
-          this.namesMap.set(
-              `${String.fromCharCode(i)}${String.fromCharCode(j)}${k.toLocaleString('pl-PL', opt)}`,
-              false,
+          Robot.namesArr.push(
+              `${String.fromCharCode(i)}${String.fromCharCode(j)}${k.toLocaleString('pl-PL', opt)}`
           )
         }
       }
@@ -20,18 +21,28 @@ export class Robot {
   }
 
   constructor() {
-    if (!Robot.namesMap.size) Robot.initializeNamesMap();
+    if (!Robot.namesArr.length) Robot.initializeNamesMap();
+    this._name = this.getRandomName();
   }
 
   public get name(): string {
-    throw new Error('Implement Robot#name')
+    return this._name;
   }
 
   public resetName(): void {
-    throw new Error('Implement Robot#resetName')
+    const newName = this.getRandomName();
+    Robot.namesArr.push(this._name);
+    this._name = newName;
   }
 
   public static releaseNames(): void {
-    throw new Error('Implement Robot.releaseNames')
+    Robot.namesArr.length = 0;
+  }
+
+  private getRandomName(): string {
+    const chosenIdx = Math.floor(Math.random() * Robot.namesArr.length);
+    const choseName = Robot.namesArr[chosenIdx];
+    Robot.namesArr.splice(chosenIdx, 1);
+    return choseName;
   }
 }
