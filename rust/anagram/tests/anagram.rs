@@ -20,7 +20,6 @@ fn no_matches() {
 }
 
 #[test]
-#[ignore]
 fn detect_simple_anagram() {
     let word = "ant";
 
