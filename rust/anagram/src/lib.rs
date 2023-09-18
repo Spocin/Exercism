@@ -1,21 +1,25 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 
-pub fn anagrams_for<'a>(word: &str, possible_anagrams: &[&str]) -> HashSet<&'a str> {
-    let mut word_chars_vec: Vec<char> = word.chars().collect();
-    word_chars_vec.sort_unstable();
+pub fn anagrams_for<'a>(word: &str, possible_anagrams: &[&'a str]) -> HashSet<&'a str> {
+    let word_lowercase = word.to_lowercase();
+    let word_sorted = str_to_sorted_vec(&word_lowercase);
 
-    let candidates: HashMap<&&str, Vec<char>> = possible_anagrams
+    possible_anagrams
         .iter()
-        .filter(|s| s.len() == word_chars_vec.len())
-        .map(|s| (s, s.to_lowercase().chars().collect::<Vec<char>>()))
-        .collect();
+        .filter(|candidate| {
+            let candidate_lowercase = candidate.to_lowercase();
 
-    for mut i in candidates { i.1.sort_unstable() };
-
-    candidates
-        .into_iter()
-        .filter(|(_, vec)| word_chars_vec.eq(vec))
-        .map(|(s, _) | s)
-        .cloned()
+            candidate_lowercase.len() == word.len()
+                && candidate_lowercase != word_lowercase
+                && word_sorted == str_to_sorted_vec(&candidate_lowercase)
+        })
+        .copied()
         .collect()
+}
+
+fn str_to_sorted_vec(word: &str) -> Vec<char> {
+    let mut chars: Vec<char> = word.chars().collect();
+    chars.sort_unstable();
+
+    return chars;
 }
