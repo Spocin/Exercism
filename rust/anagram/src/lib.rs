@@ -1,19 +1,21 @@
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
-pub fn anagrams_for<'data>(word: &str, possible_anagrams: &[&str]) -> HashSet<&'data str> {
-    let mut word_sorted: Vec<char> = word.chars().collect();
-    word_sorted.sort_unstable();
+pub fn anagrams_for<'a>(word: &str, possible_anagrams: &[&str]) -> HashSet<&'a str> {
+    let mut word_chars_vec: Vec<char> = word.chars().collect();
+    word_chars_vec.sort_unstable();
 
-    let possible_filtered: Vec<&&str> = possible_anagrams
+    let candidates: HashMap<&&str, Vec<char>> = possible_anagrams
         .iter()
-        .filter(|s| s.len() == word_sorted.len())
+        .filter(|s| s.len() == word_chars_vec.len())
+        .map(|s| (s, s.to_lowercase().chars().collect::<Vec<char>>()))
         .collect();
 
-    let mut possible_sorted: Vec<Vec<char>> = possible_filtered
-        .iter()
-        .map(|s| s.chars().collect::<Vec<char>>())
-        .map(|mut s| s.sort_unstable())
-        .collect();
+    for mut i in candidates { i.1.sort_unstable() };
 
-    return HashSet::new();
+    candidates
+        .into_iter()
+        .filter(|(_, vec)| word_chars_vec.eq(vec))
+        .map(|(s, _) | s)
+        .cloned()
+        .collect()
 }
