@@ -1,4 +1,4 @@
-const YEAR_ON_EARTH_IN_SECONDS: u64 = 60 * 60 * 24 * 365;
+const YEAR_ON_EARTH_IN_SECONDS: u64 = 31_557_600;
 
 #[derive(Debug)]
 pub struct Duration (f64);
@@ -13,7 +13,7 @@ pub trait Planet {
     const ORBITAL_PERIOD: f64;
 
     fn years_during(d: &Duration) -> f64 {
-        (d.0 / 31_557_600.0) / Self::ORBITAL_PERIOD
+        (d.0 / YEAR_ON_EARTH_IN_SECONDS as f64) / Self::ORBITAL_PERIOD
     }
 }
 
