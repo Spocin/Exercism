@@ -32,7 +32,6 @@ fn compare_larger_equal_lists() {
 }
 
 #[test]
-#[ignore]
 fn sublist_at_start() {
     assert_eq!(Comparison::Sublist, sublist(&[1, 2, 3], &[1, 2, 3, 4, 5]));
 }
