@@ -37,7 +37,6 @@ fn sublist_at_start() {
 }
 
 #[test]
-#[ignore]
 fn sublist_in_middle() {
     assert_eq!(Comparison::Sublist, sublist(&[4, 3, 2], &[5, 4, 3, 2, 1]));
 }
