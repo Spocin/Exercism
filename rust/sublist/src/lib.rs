@@ -45,7 +45,7 @@ fn is_a_sublist_of_b<T: PartialEq>(a: &[T], b: &[T]) -> bool {
 fn is_a_superlist_of_b<T: PartialEq>(a: &[T], b: &[T]) -> bool {
     if b.len() == 0 { return true }
 
-    return false;
+    is_a_sublist_of_b(&b, &a)
 }
 
 fn dedup_array<T: PartialEq>(arr: &[T]) -> Vec<&T> {
