@@ -14,6 +14,12 @@ pub fn sublist<T: PartialEq>(_first_list: &[T], _second_list: &[T]) -> Compariso
     Comparison::Unequal
 }
 
+fn is_a_equal_to_b<T: PartialEq>(a: &[T], b: &[T]) -> bool {
+    if a.len() != b.len() { return false }
+
+    return a.iter().eq(b.iter());
+}
+
 fn is_a_sublist_of_b<T: PartialEq>(a: &[T], b: &[T]) -> bool {
     if a.len() == 0 { return true }
 
@@ -24,10 +30,4 @@ fn is_a_superlist_of_b<T: PartialEq>(a: &[T], b: &[T]) -> bool {
     if b.len() == 0 { return true }
 
     return false;
-}
-
-fn is_a_equal_to_b<T: PartialEq>(a: &[T], b: &[T]) -> bool {
-    if a.len() != b.len() { return false }
-
-    return a.iter().eq(b.iter());
 }

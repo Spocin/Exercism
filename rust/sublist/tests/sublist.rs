@@ -18,7 +18,6 @@ fn anything_is_a_superlist_of_empty() {
 }
 
 #[test]
-#[ignore]
 fn one_is_not_two() {
     assert_eq!(Comparison::Unequal, sublist(&[1], &[2]));
 }
