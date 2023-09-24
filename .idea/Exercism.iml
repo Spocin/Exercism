@@ -13,11 +13,14 @@
       <sourceFolder url="file://$MODULE_DIR$/rust/anagram/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/rust/space-age/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/rust/space-age/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/rust/sublist/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/rust/sublist/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/rust/gigasecond/target" />
       <excludeFolder url="file://$MODULE_DIR$/rust/hello-world/target" />
       <excludeFolder url="file://$MODULE_DIR$/rust/clock/target" />
       <excludeFolder url="file://$MODULE_DIR$/rust/anagram/target" />
       <excludeFolder url="file://$MODULE_DIR$/rust/space-age/target" />
+      <excludeFolder url="file://$MODULE_DIR$/rust/sublist/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
