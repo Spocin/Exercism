@@ -15,7 +15,7 @@ pub fn sublist<T: PartialEq>(_first_list: &[T], _second_list: &[T]) -> Compariso
 }
 
 fn is_a_sublist_of_b<T: PartialEq>(a: &[T], b: &[T]) -> bool {
-
+    if a.eq(&[]) { return true }
 
     return true;
 }
