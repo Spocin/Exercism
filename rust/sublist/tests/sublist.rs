@@ -23,7 +23,6 @@ fn one_is_not_two() {
 }
 
 #[test]
-#[ignore]
 fn compare_larger_equal_lists() {
     use std::iter::repeat;
 
