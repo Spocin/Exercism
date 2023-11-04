@@ -1,13 +1,13 @@
 pub fn annotate(minefield: &[&str]) -> Vec<String> {
     let height = minefield.len();
-    let width = minefield[0].len();
+    let mut width = minefield[0].len();
 
-    let computed_minefield: Vec<Vec<i32>> = vec![vec![0; width]; height];
+    let mut computed_minefield: Vec<Vec<i32>> = vec![vec![0; width]; height];
 
     for (y, row) in minefield.iter().enumerate() {
         for (x, field) in row.chars().enumerate() {
             if field == '*' {
-                increment_around_bomb(&x, &y, &computed_minefield);
+                increment_around_bomb(x, y, &mut computed_minefield);
             }
         }
     }
@@ -27,6 +27,46 @@ pub fn annotate(minefield: &[&str]) -> Vec<String> {
         .collect();
 }
 
-fn increment_around_bomb(x: &usize, y: &usize, minefield: &Vec<Vec<i32>>) {
+fn increment_around_bomb(x: usize, y: usize, minefield: &mut Vec<Vec<i32>>) {
+    if y == 0 {
+        increment_row(x, &mut minefield[y]);
+        increment_row(x, &mut minefield[y+1]);
+        return;
+    }
 
+    if y == minefield.len() {
+        increment_row(x, &mut minefield[y-1]);
+        increment_row(x, &mut minefield[y]);
+        return;
+    }
+
+    increment_row(x, &mut minefield[y-1]);
+    increment_row(x, &mut minefield[y]);
+    increment_row(x, &mut minefield[y+1]);
+}
+
+fn increment_row(x: usize, row: &mut Vec<i32>) {
+    if x == 0 {
+        for field in x..x+1 {
+            if row[field] != -1 {
+                row[field] += 1;
+            }
+        }
+        return;
+    }
+
+    if x == row.len() {
+        for field in x-1..x {
+            if row[field] != -1 {
+                row[field] += 1;
+            }
+        }
+        return;
+    }
+
+    for field in x - 1..x + 1 {
+        if row[field] != -1 {
+            row[field] += 1;
+        }
+    }
 }
