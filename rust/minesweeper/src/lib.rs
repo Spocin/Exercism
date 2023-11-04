@@ -29,6 +29,11 @@ pub fn annotate(minefield: &[&str]) -> Vec<String> {
 }
 
 fn increment_around_bomb(x: usize, y: usize, computed_minefield: &mut Vec<Vec<i32>>) {
+    if y == 0 && y == computed_minefield.len() -1 {
+        increment_row(x, &mut computed_minefield[y]);
+        return;
+    }
+
     if y == 0 {
         increment_row(x, &mut computed_minefield[y]);
         increment_row(x, &mut computed_minefield[y+1]);
@@ -47,6 +52,11 @@ fn increment_around_bomb(x: usize, y: usize, computed_minefield: &mut Vec<Vec<i3
 }
 
 fn increment_row(x: usize, row: &mut Vec<i32>) {
+    if x == 0 && x == row.len() - 1 {
+        increment_field(&mut row[x]);
+        return;
+    }
+
     if x == 0 {
         increment_field(&mut row[x]);
         increment_field(&mut row[x+1]);
