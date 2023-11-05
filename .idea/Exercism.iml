@@ -17,6 +17,8 @@
       <sourceFolder url="file://$MODULE_DIR$/rust/sublist/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/rust/minesweeper/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/rust/minesweeper/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/rust/luhn/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/rust/luhn/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/rust/gigasecond/target" />
       <excludeFolder url="file://$MODULE_DIR$/rust/hello-world/target" />
       <excludeFolder url="file://$MODULE_DIR$/rust/clock/target" />
@@ -24,6 +26,7 @@
       <excludeFolder url="file://$MODULE_DIR$/rust/space-age/target" />
       <excludeFolder url="file://$MODULE_DIR$/rust/sublist/target" />
       <excludeFolder url="file://$MODULE_DIR$/rust/minesweeper/target" />
+      <excludeFolder url="file://$MODULE_DIR$/rust/luhn/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
