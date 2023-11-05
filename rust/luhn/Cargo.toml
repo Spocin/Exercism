@@ -4,4 +4,10 @@ name = "luhn"
 version = "1.6.1"
 
 [dependencies]
-regex = "1.10.2"
+
+[dev-dependencies]
+criterion = "0.5.1"
+
+[[bench]]
+name = "luhn_benchmark"
+harness = false
