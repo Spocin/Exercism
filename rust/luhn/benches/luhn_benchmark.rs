@@ -2,7 +2,7 @@ use luhn::*;
 use criterion::{black_box, criterion_group, criterion_main, Criterion, Bencher};
 
 fn luhn_benchmark(c: &mut Criterion) {
-    let mut input = black_box("8273 1232 7352 0569");
+    let input = black_box("8273 1232 7352 0569");
 
     c.bench_function(
         "luhn algorithm",

@@ -1,5 +1,3 @@
-use regex::Regex;
-
 /// Check a Luhn checksum.
 pub fn is_valid(code: &str) -> bool {
     //Spaces are allowed but should be stripped
@@ -10,11 +8,7 @@ pub fn is_valid(code: &str) -> bool {
         return false;
     }
 
-    //Only numbers are allowed
-    let only_numbers_pattern = "^[0-9]*$";
-    let regex_matcher = Regex::new(only_numbers_pattern).unwrap();
-
-    if !regex_matcher.is_match(&code_sanitized) {
+    if !code_sanitized.chars().all(|char| char.is_numeric()) {
         return false;
     }
 
