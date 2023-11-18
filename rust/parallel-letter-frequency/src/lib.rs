@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::thread;
+use std::thread::JoinHandle;
 
 pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
     let mut worker_count_computed: &usize = &input.len();
@@ -10,8 +11,11 @@ pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
         _ => worker_count_computed = &worker_count,
     }
 
-    let threads = input.chunks(*worker_count_computed)
-        .map(|chunk| thread::spawn(move || {
+    let mut threads: Vec<JoinHandle<HashMap<char, usize>>> = vec![];
+    let chunks = input.chunks(*worker_count_computed);
+
+    for chunk in chunks {
+        let thread = thread::spawn(move || {
             println!("Created thread to compute chunk");
 
             //TODO This can be done functional without allocation of intermidiate map
@@ -22,19 +26,19 @@ pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
                 .for_each(|map| threads_words_count.extend(map));
 
             return threads_words_count;
-        }))
-        .map(|thread| thread.join())//FIXME Is it triggered sequentially?
-        .collect::<Vec<_>>();
-
-    /*let results = threads.iter()
-        .map(|thread| thread.join())
-        .collect::<Vec<_>>();*/
-
-    threads.iter()
-        .for_each(|chunk_result| match chunk_result {
-            Ok(subResult) => words_count.extend(subResult),
-            Err(_) => eprintln!("Thread failed"),
         });
+
+        threads.push(thread);
+    }
+
+    for thread in threads {
+        let result = thread.join();
+
+        match result {
+            Ok(subMap) => { words_count.extend(subMap)}
+            Err(_) => { eprintln!("Thread failed"); }
+        }
+    }
 
     return words_count;
 }
