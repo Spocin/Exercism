@@ -20,6 +20,9 @@
       <sourceFolder url="file://$MODULE_DIR$/rust/luhn/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/rust/luhn/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/rust/luhn/benches" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/rust/parallel-letter-frequency/benches" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/rust/parallel-letter-frequency/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/rust/parallel-letter-frequency/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/rust/gigasecond/target" />
       <excludeFolder url="file://$MODULE_DIR$/rust/hello-world/target" />
       <excludeFolder url="file://$MODULE_DIR$/rust/clock/target" />
@@ -28,6 +31,7 @@
       <excludeFolder url="file://$MODULE_DIR$/rust/sublist/target" />
       <excludeFolder url="file://$MODULE_DIR$/rust/minesweeper/target" />
       <excludeFolder url="file://$MODULE_DIR$/rust/luhn/target" />
+      <excludeFolder url="file://$MODULE_DIR$/rust/parallel-letter-frequency/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -44,7 +44,6 @@ fn no_texts() {
 }
 
 #[test]
-#[ignore]
 fn one_letter() {
     let mut hm = HashMap::new();
     hm.insert('a', 1);
