@@ -1,25 +1,24 @@
-use std::thread;
 use std::collections::HashMap;
+use std::thread;
 
 pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
-    let worker_count_computed: &usize;
+    let mut worker_count_computed: &usize = &input.len();
     let mut words_count: HashMap<char, usize> = HashMap::new();
 
     match worker_count {
-        w if w > input.len() => worker_count_computed = &input.len(),
         0 => worker_count_computed = &1,
         _ => worker_count_computed = &worker_count,
     }
 
     let threads = input.chunks(*worker_count_computed)
-        .map(|chunk| thread::spawn(|| {
+        .map(|chunk| thread::spawn(move || {
             println!("Created thread to compute chunk");
 
             //TODO This can be done functional without allocation of intermidiate map
             let mut threads_words_count: HashMap<char, usize> = HashMap::new();
 
             chunk.iter()
-                .map(|chunk| countChars(chunk))
+                .map(|chunk| count_chars(chunk))
                 .for_each(|map| threads_words_count.extend(map));
 
             return threads_words_count;
@@ -27,15 +26,27 @@ pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
         .map(|thread| thread.join())//FIXME Is it triggered sequentially?
         .collect::<Vec<_>>();
 
+    /*let results = threads.iter()
+        .map(|thread| thread.join())
+        .collect::<Vec<_>>();*/
+
     threads.iter()
-        .for_each(|chunkResult| match chunkResult {
+        .for_each(|chunk_result| match chunk_result {
             Ok(subResult) => words_count.extend(subResult),
-            Err(err) => eprintln!("Thread failed"),
+            Err(_) => eprintln!("Thread failed"),
         });
 
     return words_count;
 }
 
-fn countChars(input: &&str) -> HashMap<char, usize> {
+fn count_chars(input: &&str) -> HashMap<char, usize> {
+    let mut words_count = HashMap::new();
 
+    input.chars()
+        .for_each(|char| match words_count.get(&char) {
+            Some(w) => { words_count.insert(char, w + 1); }
+            None => { words_count.insert(char, 1); }
+        });
+
+    return words_count;
 }
