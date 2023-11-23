@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::thread;
+use std::thread::JoinHandle;
 
 pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
     let mut worker_count_computed: &usize = &input.len();
@@ -10,36 +11,41 @@ pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
         _ => worker_count_computed = &worker_count,
     }
 
-    let threads = input.chunks(*worker_count_computed)
-        .map(|chunk| thread::spawn(move || {
-            println!("Created thread to compute chunk");
+    let mut threads: Vec<JoinHandle<HashMap<char, usize>>> = vec![];
 
-            //TODO This can be done functional without allocation of intermidiate map
-            let mut threads_words_count: HashMap<char, usize> = HashMap::new();
+    input.chunks(*worker_count_computed)
+        .for_each(|chunk| threads.push(spawn_worker_and_proccess(chunk)));
 
-            chunk.iter()
-                .map(|chunk| count_chars(chunk))
-                .for_each(|map| threads_words_count.extend(map));
+    for thread in threads {
+        let chunk_result = thread.join();
 
-            return threads_words_count;
-        }))
-        .map(|thread| thread.join())//FIXME Is it triggered sequentially?
-        .collect::<Vec<_>>();
-
-    /*let results = threads.iter()
-        .map(|thread| thread.join())
-        .collect::<Vec<_>>();*/
-
-    threads.iter()
-        .for_each(|chunk_result| match chunk_result {
-            Ok(subResult) => words_count.extend(subResult),
-            Err(_) => eprintln!("Thread failed"),
-        });
+        match chunk_result {
+            Ok(words_map) => { words_count.extend(words_map) }
+            Err(_) => { println!("Chunk failed!") }
+        }
+    }
 
     return words_count;
 }
 
-fn count_chars(input: &&str) -> HashMap<char, usize> {
+fn spawn_worker_and_proccess(chunk: &[&str]) -> JoinHandle<HashMap<char, usize>> {
+    let chunk_owned: Vec<String> = chunk
+        .iter()
+        .map(|line| line.to_lowercase())
+        .collect();
+
+    return thread::spawn(move || {
+        let mut chunk_words_count = HashMap::new();
+
+        for line in chunk_owned {
+            chunk_words_count.extend(count_chars(&line));
+        }
+
+        return chunk_words_count;
+    })
+}
+
+fn count_chars(input: &String) -> HashMap<char, usize> {
     let mut words_count = HashMap::new();
 
     input.chars()
