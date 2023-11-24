@@ -6,6 +6,8 @@ pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
     let workers_to_spawn: usize;
     let mut words_count: HashMap<char, usize> = HashMap::new();
 
+    if input.len() == 0 { return words_count };
+
     match worker_count {
         0 => workers_to_spawn = 1,
         x if x > input.len() => workers_to_spawn = input.len(),
@@ -51,6 +53,7 @@ fn count_chars(input: &String) -> HashMap<char, usize> {
     let mut words_count = HashMap::new();
 
     input.chars()
+        .filter(|char| char.is_alphabetic())
         .for_each(|char| match words_count.get(&char) {
             Some(w) => { words_count.insert(char, w + 1); }
             None => { words_count.insert(char, 1); }
