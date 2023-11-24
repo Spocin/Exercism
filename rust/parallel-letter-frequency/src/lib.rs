@@ -16,8 +16,25 @@ pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
 
     let mut threads: Vec<JoinHandle<HashMap<char, usize>>> = vec![];
 
-    input.chunks(workers_to_spawn)
-        .for_each(|chunk| threads.push(spawn_worker_and_process(chunk)));
+    for chunk in input.chunks(workers_to_spawn) {
+        let lines: Vec<String> = chunk
+            .iter()
+            .filter(|string| !string.is_empty())
+            .map(|line| line.to_lowercase())
+            .collect();
+
+        let thread = thread::spawn(|| {
+            let mut thread_word_count = HashMap::new();
+
+            for line in lines {
+                concat_maps(&mut thread_word_count, count_chars(&line));
+            }
+
+            return thread_word_count;
+        });
+
+        threads.push(thread);
+    }
 
     for thread in threads {
         let chunk_result = thread.join();
@@ -29,24 +46,6 @@ pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
     }
 
     return words_count;
-}
-
-fn spawn_worker_and_process(chunk: &[&str]) -> JoinHandle<HashMap<char, usize>> {
-    let chunk_owned: Vec<String> = chunk
-        .iter()
-        .filter(|string| !string.is_empty())
-        .map(|line| line.to_lowercase())
-        .collect();
-
-    return thread::spawn(move || {
-        let mut chunk_words_count = HashMap::new();
-
-        chunk_owned
-            .iter()
-            .for_each(|line| concat_maps(&mut chunk_words_count, count_chars(&line)));
-
-        return chunk_words_count;
-    })
 }
 
 fn count_chars(input: &String) -> HashMap<char, usize> {
