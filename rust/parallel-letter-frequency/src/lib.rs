@@ -53,8 +53,8 @@ fn count_chars(input: &String) -> HashMap<char, usize> {
 
     input.chars()
         .filter(|char| char.is_alphabetic())
-        .for_each(|char| match words_count.get(&char) {
-            Some(w) => { words_count.insert(char, w + 1); }
+        .for_each(|char| match words_count.get_mut(&char) {
+            Some(w) => { *w += 1 }
             None => { words_count.insert(char, 1); }
         });
 
@@ -62,13 +62,10 @@ fn count_chars(input: &String) -> HashMap<char, usize> {
 }
 
 fn concat_maps(a: &mut HashMap<char, usize>, b: HashMap<char, usize>) {
-    b.iter()
-        .for_each(|(key, val)| {
-            let anchor = a.get_mut(key);
-
-            match anchor {
-                Some(anchor_val) => { *anchor_val += val; }
-                None => { a.insert(*key, *val); }
-            }
-        })
+    for (key, val) in &b {
+        match a.get_mut(&key) {
+            Some(x) => { *x += val }
+            None => { a.insert(*key, *val); }
+        }
+    }
 }
